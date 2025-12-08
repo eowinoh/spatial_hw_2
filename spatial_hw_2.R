@@ -61,14 +61,52 @@ summary_clean <- as.data.frame(t(summary_stats)) %>%
   xtable() %>% print(.,include.rownames = TRUE)
 
 
+pv0 <- VO_Cambodia_Updated %>%
+  ggplot()+
+  geom_point(aes(utm_x, utm_y, color = VO), size = 1) +
+  coord_fixed(ratio = 1) +
+  labs(title="") +
+  scale_color_viridis_c(option = "plasma") +
+  #scale_color_gradient(low = "blue", high = "red") +
+  geom_path(data = data.frame(colomia_boundaries), aes(utm_x,utm_y))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(hjust=0.5),
+        axis.title = element_blank())
+ggsave("plots/eda_VO.png", plot = pv0, width = 6, height = 4, dpi = 300)
+
+
+p_elev <-  VO_Cambodia_Updated %>%
+  ggplot()+
+  geom_point(aes(utm_x, utm_y, color = elevation), size = 1) +
+  coord_fixed(ratio = 1) +
+  labs(color="Elevation (m)") +
+  scale_color_viridis_c(option = "plasma") +
+  #scale_color_gradient(low = "blue", high = "red") +
+  geom_path(data = data.frame(colomia_boundaries), aes(utm_x,utm_y))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(hjust=0.5),
+        axis.title = element_blank())
+ggsave("plots/eda_elevation.png", plot = p_elev, width = 6, height = 4, dpi = 300)
+
+#######==== VO vs elevation
+png("plots/eda_VO_vs_elevation.png", width = 1200, height = 900, res = 150)
+
+plot(VO ~ elevation,
+     data = VO_Cambodia_Updated,
+     main = "",
+     xlab = "Elevation (m)",
+     pch = 20,
+     cex = 0.5)
+
+dev.off()
 
 
 
 
-
-
-elev_points <- get_elev_point(cambodia, prj = st_crs(4326), src = "aws", z = 7)
-kenya.predictors <- get_elev_point(elev, src="aws", prj=4326)
 
 
 
