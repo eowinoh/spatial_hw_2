@@ -105,11 +105,17 @@ plot(VO ~ elevation,
 dev.off()
 
 
+##############======Modelling ======####################
+##############Linear regression model
 
+lm1 <- lm(VO ~ elevation, data = VO_Cambodia_Updated)
+summary(lm1)
+lm_table
 
-
-
-
-
+####check model assumption
+png("plots/lm_diag_plots.png", width = 1200, height = 1200, res = 150)
+par(mfrow = c(2, 2))
+plot(lm1)
+dev.off()
 
 
