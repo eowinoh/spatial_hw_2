@@ -238,6 +238,13 @@ F-statistic: 565.8 on 1 and 212 DF,  p-value: < 2.2e-16
     \label{fig:el_vo}
 \end{figure}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{plots/spatial_correlation_diagnostic.png}
+    \caption{Variogram}
+    \label{fig:lm_variogram}
+\end{figure}
+
 
 \begin{verbatim}
     Least square fit to the empirical variogram 
@@ -246,7 +253,12 @@ phi = 68.91269 (Scale of the spatial correlation)
 tau^2 = 0.06385818 (Variance of the nugget effect) 
 \end{verbatim}
 
-
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{plots/lm_diag_plots.png}
+    \caption{Linear Model Diagnostic Plots}
+    \label{fig:lm_Plots}
+\end{figure}
 
 
 Linear geostatistical Model
@@ -265,6 +277,40 @@ log(sigma^2)  -1.6873 0.2964
 log(phi)       4.5827 0.4412
 log(tau^2)    -1.7643 0.7568
 \end{verbatim}
+
+
+
+
+\begin{verbatim}
+    Geostatistical linear model 
+Call: 
+linear.model.MLE(formula = VO ~ elevation, coords = ~utm_x + 
+    utm_y, data = VO_Cambodia_Updated, ID.coords = NULL, kappa = 0.5, 
+    fixed.rel.nugget = NULL, start.cov.pars = c(spatial_cor[["lse.variogram"]][["phi"]], 
+        spatial_cor[["lse.variogram"]][["tau^2"]]/spatial_cor[["lse.variogram"]][["sigma^2"]]), 
+    method = "nlminb")
+
+               Estimate      StdErr z.value   p.value    
+(Intercept)  6.54123347  0.10395944  62.921 < 2.2e-16 ***
+elevation   -0.00468364  0.00022119 -21.174 < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Log-likelihood: 23.61158
+ 
+Covariance parameters Matern function (kappa=0.5) 
+             Estimate StdErr
+log(sigma^2)  -1.6873 0.2964
+log(phi)       4.5827 0.4412
+log(tau^2)    -1.7643 0.7568
+
+Legend: 
+sigma^2 = variance of the Gaussian process 
+phi = scale of the spatial correlation 
+tau^2 = variance of the nugget effect 
+> 
+\end{verbatim}
+
 
 
 
