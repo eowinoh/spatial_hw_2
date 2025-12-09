@@ -7,7 +7,7 @@
 \usepackage{xcolor} % for syntax colors
 \usepackage{graphicx} 
 %\usepackage{parskip}
-\usepackage[table]{xcolor}
+%\usepackage[table]{xcolor}
 \usepackage{amsmath}
 %\usepackage{float}
 \usepackage{placeins} % prevent float
@@ -92,8 +92,7 @@
 \begin{center}
 \vspace*{1in}
 	% title
-	\centering\textbf{\huge{Spatial Epidemiology\\[1cm]
- }} \\[2cm]
+	\centering\textbf{\huge{Spatial Epidemiology\\[3cm] }}
 	% details
 	\Large{\textbf{
 	Master of Statistics and Data Science} \\
@@ -191,8 +190,26 @@ VO & 0.00 & 5.60 & 6.11 & 5.92 & 6.60 & 8.13 \\
    \hline
 \end{tabular}
 \end{table}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{plots/eda_VO.png}
+    \caption{VO }
+    \label{fig:vo}
+\end{figure}
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{plots/eda_elevation.png}
+    \caption{Elevation }
+    \label{fig:el}
+\end{figure}
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{plots/eda_VO_vs_elevation.png}
+    \caption{Elevation vs VO }
+    \label{fig:el_vo}
+\end{figure}
 \begin{verbatim}
     Call:
 lm(formula = VO ~ elevation, data = VO_Cambodia_Updated)
@@ -211,6 +228,42 @@ Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’
 Residual standard error: 0.6001 on 212 degrees of freedom
 Multiple R-squared:  0.7274,	Adjusted R-squared:  0.7262 
 F-statistic: 565.8 on 1 and 212 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{plots/eda_VO_vs_elevation.png}
+    \caption{Elevation vs VO }
+    \label{fig:el_vo}
+\end{figure}
+
+
+\begin{verbatim}
+    Least square fit to the empirical variogram 
+sigma^2 = 0.1175444 (Variance of the Gaussian process) 
+phi = 68.91269 (Scale of the spatial correlation) 
+tau^2 = 0.06385818 (Variance of the nugget effect) 
+\end{verbatim}
+
+
+
+
+Linear geostatistical Model
+\begin{verbatim}
+                   Estimate      StdErr z.value   p.value    
+(Intercept)  6.54123347  0.10395944  62.921 < 2.2e-16 ***
+elevation   -0.00468364  0.00022119 -21.174 < 2.2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Log-likelihood: 23.61158
+ 
+Covariance parameters Matern function (kappa=0.5) 
+             Estimate StdErr
+log(sigma^2)  -1.6873 0.2964
+log(phi)       4.5827 0.4412
+log(tau^2)    -1.7643 0.7568
 \end{verbatim}
 
 
