@@ -164,11 +164,12 @@ The objectives of this study were as follows:
     \item  Finally, to support the Cambodian government’s efforts to better characterize high-risk areas—defined as those with VO values of 6 or higher, we design an adaptive sampling strategy and identify 10 new locations where additional data collection would most effectively improve understanding of VO risk.
 \end{enumerate}
 
+\section{Methodology}
+\subsection{Exploratory Analysis}
+All analyses were conducted in R (version 4.5.2), and the code can be found in the Appendix \cite{r_cite}. A map of Cambodia was obtained using the \texttt{world} dataset from the sf package\cite{sf_book}\cite{sf_package}. For both the map and the data, UTM coordinates were first created. For the model predictions, elevation points for all locations in Cambodia were obtained using the \texttt{get\_elev\_point()} function from the \texttt{elevatr} package, using latitude and longitude coordinates \cite{elev}. All other analyses, including the maps of predicted VO Index values, were conducted using UTM coordinates. \\ 
+The data were first explored by computing summary statistics for the VO Index and elevation. A map showing the locations of data collection was produced to assess how the data were distributed across Cambodia. Next, a plot of the VO Index against elevation was created to examine the relationship between the two variables. Maps of the VO Index and elevation at the data collection locations were also produced to further explore their association and to visualize any spatial trends across Cambodia.
 
-
-
-
-
+\subsection{Statistical Analysis}
 
 Summary statistics
 
