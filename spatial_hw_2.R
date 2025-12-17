@@ -197,7 +197,7 @@ lines(colomia_boundaries)
 dev.off()
 
 
-png("plots/VO_Risk.png", width = 900, height = 900, res = 300)
+png("plots/VO_Risk.png", width = 900, height = 900, res = 150)
 plot(geo_pred_model,summary="exceedance.prob",zlim=c(0,1),main="", xlab="",ylab="")
 contour(geo_pred_model,summary="exceedance.prob",add=TRUE,levels=c(0.25,0.75))
 lines(colomia_boundaries)
