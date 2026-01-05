@@ -136,32 +136,35 @@ Prof. Dr. Thomas Neyens \\
 \section{Background}
 Dengue is a mosquito-transmitted viral infection endemic to tropical and subtropical regions where climate conditions support large vector populations. The disease often presents asymptomatically, yet when symptoms occur, they typically include high fever, headache, and intense bodily pain\cite{who_dengue_severe_2025}. Although recovery usually occurs within a couple of weeks, the risk of developing a severe, life-threatening form of the disease underscores its gravity. Since no specific treatment exists, prevention, primarily through avoiding daytime mosquito bites, is the single most vital strategy for reducing the burden of infection \cite{who_dengue_severe_2025}. \\\\
 \noindent One way to quantify the local risk of dengue transmission is through the Vector Occurrence (VO) index, a continuous measure that reflects the combined abundance of mosquito vector species at a given location. In entomology, vector occurrence refers to the presence, distribution, and population level of arthropods capable of transmitting pathogens to humans, animals, or plants. The VO index is derived from data collected using both light traps and sentinel traps, providing a mixed and comprehensive estimate of mosquito activity. Higher VO values indicate greater overall mosquito abundance and therefore a higher potential risk of dengue transmission. \\\\
-\noindent  The majority of the at-risk population currently lives in the Asia-Pacific Region \cite{who_dengue_severe_2025}. Cambodia has endured a long-term public health challenge from dengue fever, traceable to a massive epidemic in 1995 that resulted in more than 400 recorded deaths. Since this benchmark event, the annual monitoring of dengue incidence reveals a sustained upward trend in case numbers \cite{huy2010national} \cite{vong2010dengue} \cite{herbreteau2025spatio}. This escalating threat has been marked by several significant outbreaks characterized by high morbidity, including major epidemics in 2007 (39,618 cases and 396 deaths), 2012 (42,362 cases and 189 deaths), and most recently in 2019, which registered the highest case count yet at 68,597, alongside 48 fatalities\cite{maquart2021recent}. \\ \\
+\noindent  The majority of the at-risk population currently live in the Asia-Pacific Region \cite{who_dengue_severe_2025}. Cambodia has endured a long-term public health challenge from dengue fever, traceable to a massive epidemic in 1995 that resulted in more than 400 recorded deaths. Since this benchmark event, the annual monitoring of dengue incidence reveals a sustained upward trend in case numbers \cite{huy2010national} \cite{vong2010dengue} \cite{herbreteau2025spatio}. This escalating threat has been marked by several significant outbreaks characterized by high morbidity, including major epidemics in 2007 (39,618 cases and 396 deaths), 2012 (42,362 cases and 189 deaths), and most recently in 2019, which registered the highest case count yet at 68,597, alongside 48 fatalities\cite{maquart2021recent}. \\ \\
 \noindent This project investigates the spatial variation of the VO index across Cambodia. Because mosquito distribution and abundance are affected by biophysical conditions, the VO index is expected to vary
 with environmental factors. The study uses a dataset containing HVI values assessed in a random sample of 214 locations in Colombia and the variables in the dataset are as described in  table \ref{tab:vars} below:
 
 
-\begin{center}
+\begin{table}[htbp]
+\centering
+\caption{Variable Description}
+\label{tab:vars}
 \begin{tabular}{ll}
 \hline
 \textbf{Variable} & \textbf{Description} \\
 \hline
-$VO_i$            & Vector Occurrence Index at location $i$ \\[2pt]
-$elevation_i$     & Elevation at location $i$ (meters above sea level) \\
-$X_i$             & Longitude of location $i$ \\[2pt]
-$Y_i$             & Latitude of location $i$ \\
+$VO_i$        & Vector Occurrence Index at location $i$ \\
+$elevation_i$ & Elevation at location $i$ (meters above sea level) \\
+$X_i$         & Longitude of location $i$ \\
+$Y_i$         & Latitude of location $i$ \\
 \hline
 \end{tabular}
-\label{tab:vars}
-\end{center}
+\end{table}
+
 
 \section{Study Objectives}
 The objectives of this study were as follows:
 \begin{enumerate}
-    \item To  determine whether VO exhibits spatial correlation across Cambodia, indicating that neighboring areas may share similar underlying patterns.
+    \item To  determine whether VO exhibits spatial correlation across Cambodia. %indicating that neighboring areas may share similar underlying patterns.
     \item To assess whether the observed variation in VO can be explained solely by elevation or whether additional, unobserved spatially structured factors are influencing VO at finer spatial scales.
     \item To develop a model-based map of predicted mean VO across the country, incorporating elevation and any relevant latent spatial components identified in the analysis
-    \item  Finally, to support the Cambodian government’s efforts to better characterize high-risk areas—defined as those with VO values of 6 or higher, we design an adaptive sampling strategy and identify 10 new locations where additional data collection would most effectively improve understanding of VO risk.
+    \item  To identify high-risk areas and new locations where additional data collection would most effectively improve understanding of VO risk.
 \end{enumerate}
 
 \section{Methodology}
@@ -170,76 +173,131 @@ All analyses were conducted in R (version 4.5.2), and the code can be found in t
 The data were first explored by computing summary statistics for the VO Index and elevation. A map showing the locations of data collection was produced to assess how the data were distributed across Cambodia. Next, a plot of the VO Index against elevation was created to examine the relationship between the two variables. Maps of the VO Index and elevation at the data collection locations were also produced to further explore their association and to visualize any spatial trends across Cambodia.
 
 \subsection{Statistical Analysis}
+\subsection{Linear Regression Model}
+To determine whether VO exhibits spatial correlation across Cambodia, a linear regression model was fit to the data and is given by
+\[
+Y_i = \beta_0 + \beta_1 \,\text{elevation}(x_i), \quad i = 1, \ldots, n,
+\]
+where \(Y_i\) denotes the VO Index at location \(x_i\), and
+\(\text{elevation}(x_i)\) represents the elevation at that location.
+Elevation was included as an explanatory variable based on the exploratory
+analysis of the relationship between the VO Index and elevation. The fitted regression line was plotted against the observed data, and model diagnostics were examined to assess how well the model fit the data. \\
 
-Summary statistics
+\noindent The model residuals were examined for spatial correlation using an empirical variogram. A Monte Carlo approach with a Gaussian likelihood was used to simulate the distribution of empirical variograms under the null hypothesis of spatial independence. This was achieved by randomly permuting the predicted residuals and recomputing the empirical variogram for each permutation. For the variogram binning, the distance vector was specified as $\texttt{uvec} = \texttt{seq}(10, 750, \texttt{length} = 20)$. A test statistic was then used to evaluate spatial dependence under the null hypothesis of no spatial correlation.
 
-% latex table generated in R 4.5.2 by xtable 1.8-4 package
-% Mon Dec  8 12:47:46 2025
-\begin{table}[ht]
+\subsection{Linear Geostatistical Model}
+The linear model was subsequently extended to a linear geostatistical framework following evidence of spatial correlation. The model is specified as
+\[
+Y_i = \beta_0 + \beta_1 \, \text{elevation}(x_i) + S(x_i) + Z_i, \quad i = 1, \ldots, n,
+\]
+where $Y_i$ denotes the VO Index at location $x_i$, and $\text{elevation}(x_i)$ represents the elevation at that location. The term $S(x_i)$ is a spatially correlated Gaussian process that captures the combined influence of unobserved explanatory variables affecting the outcome at location $x_i$. The nugget effect, $Z_i$, represents spatially uncorrelated residual variation and is assumed to follow a normal distribution with mean zero and variance $\tau^2$. $Z_i$ is a measure of measurement errors and the small-scale spatial variations.\\
+
+\noindent An exponential correlation function was adopted for the spatial process, corresponding to a special case of the Matérn correlation function with smoothness parameter $\kappa = 0.5$. Least-squares estimates obtained from fitting the empirical variogram from the linear regression model were used as initial inputs for the linear geostatistical model.\\
+
+\noindent A goodness-of-fit assessment was conducted to evaluate the adequacy of the assumed spatial correlation structure for the VO Index data.
+
+\subsection{Adaptive Sampling Design}
+To improve our understanding of high-risk areas, defined as locations with a VO of 6 or higher,identified in the previous analysis, we selected ten additional sampling locations. We applied an adaptive sampling design, in which data are collected in batches, and the results from each batch inform the design of the next batch. This approach ensures that sampling is concentrated in areas likely to provide the most additional information.
+
+In the earlier analysis, we fitted a model to the existing data and generated spatial predictions to estimate the prevalence of high VO across Cambodia. Using this information, we implemented the adaptive design algorithm described by Chipeta et al. (2016a) via the \textit{geosample} package in R to determine the new sampling points.
+
+The selection of the ten additional locations was guided by exceedance probability criteria. This method prioritizes locations with high uncertainty, that is, those with an exceedance probability near 0.5, ensuring that areas with a predicted prevalence of $VO \geq 6$ are targeted. By focusing on these informative locations, the adaptive design maximizes the value of the additional samples and refines estimates of high-risk zones.
+
+
+
+
+
+
+
+
+\section{Results}
+\subsection{Exploratory Analysis}
+Table \ref{tab:summary_stats} presents summary statistics for the VO Index and elevation. The VO Index ranges from 0.00 to 8.13, with a median value of 6.11 and a mean of 5.92, indicating a slightly left-skewed distribution. The interquartile range is relatively narrow (fro 5.60 to 6.60), suggesting limited variability in VO Index values across locations. Elevation shows substantially greater variability, ranging from -10 m to 1347 metres. The mean elevation 132.08 is notably higher than the median of 72.00 metres, indicating a right-skewed distribution driven by a small number of high-elevation locations.
+
+\begin{table}[htbp]
 \centering
-\begin{tabular}{rrrrrrr}
-  \hline
- & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\ 
-  \hline
-VO & 0.00 & 5.60 & 6.11 & 5.92 & 6.60 & 8.13 \\ 
-  elevation & -10.00 & 18.50 & 72.00 & 132.08 & 130.00 & 1347.00 \\ 
-   \hline
+\caption{Summary statistics for VO Index and elevation}
+\label{tab:summary_stats}
+\begin{tabular}{lcccccc}
+\hline
+\textbf{Variable} & Min. & 1st Qu. & Median & Mean & 3rd Qu. & Max. \\
+\hline
+VO        & 0.00  & 5.60  & 6.11  & 5.92  & 6.60  & 8.13  \\
+Elevation & -10.00 & 18.50 & 72.00 & 132.08 & 130.00 & 1347.00 \\
+\hline
 \end{tabular}
 \end{table}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.75\linewidth]{plots/eda_VO.png}
-    \caption{VO }
-    \label{fig:vo}
-\end{figure}
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.75\linewidth]{plots/eda_elevation.png}
-    \caption{Elevation }
-    \label{fig:el}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=0.75\linewidth]{plots/eda_VO_vs_elevation.png}
-    \caption{Elevation vs VO }
-    \label{fig:el_vo}
-\end{figure}
-\begin{verbatim}
-    Call:
-lm(formula = VO ~ elevation, data = VO_Cambodia_Updated)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--1.29794 -0.41959 -0.07486  0.49279  1.64685 
-
-Coefficients:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  6.5549415  0.0488785  134.11   <2e-16 ***
-elevation   -0.0047860  0.0002012  -23.79   <2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Residual standard error: 0.6001 on 212 degrees of freedom
-Multiple R-squared:  0.7274,	Adjusted R-squared:  0.7262 
-F-statistic: 565.8 on 1 and 212 DF,  p-value: < 2.2e-16
-\end{verbatim}
+Figure \ref{fig:eda_combined} shows  exploratory visualisations of  VO Index and elevation. Panel (a) shows the distribution of  VO Index across Cambodia, with noticeable spatial variation and clusters of higher values in certain regions, suggesting potential underlying spatial structure. Panel (b) shows  spatial pattern of elevation, which varies substantially across locations and exhibits a different spatial gradient compared to the VO Index map. Panel (c) displays the relationship between elevation and  VO Index, indicating a generally negative association, where higher VO Index values tend to occur at lower elevations. Although the relationship is not strictly linear, the scatter plot suggests that elevation may be an important explanatory variable for spatial variation in the VO Index, motivating its inclusion subsequent analyses.
 
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.75\linewidth]{plots/eda_VO_vs_elevation.png}
-    \caption{Elevation vs VO }
-    \label{fig:el_vo}
+    \begin{subfigure}[t]{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{plots/eda_VO.png}
+        \caption{VO Index for the sampled location in Cambodia}
+        \label{fig:vo}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{plots/eda_elevation.png}
+        \caption{Elevation for the sampled location in Cambodia}
+        \label{fig:el}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.32\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{plots/eda_VO_vs_elevation.png}
+        \caption{Elevation against VO Index}
+        \label{fig:el_vo}
+    \end{subfigure}
+    \caption{Exploratory  Plots for  VO Index and elevation}
+    \label{fig:eda_combined}
 \end{figure}
 
-\begin{figure}
+\subsection{Linear Regression Model}
+Based on the exploratory data analysis we further include elevation in the linear regression model and the result are as shown in table \ref{tab:lm_vo_elevation}.
+\begin{table}[htbp]
+\centering
+\caption{Linear regression results for the VO Index and elevation}
+\label{tab:lm_vo_elevation}
+\begin{tabular}{lccc}
+\hline
+Parameter & Estimate & $SE$ & p-value \\
+\hline
+Intercept($\beta_0$)  & 6.5549 & 0.0489 & $< 0.001$ \\
+Elevation($\beta_1$) & -0.0048 & 0.0002 & $< 0.001$ \\
+\hline
+\end{tabular}
+\end{table}
+The linear model provides a good overall fit to the data, as indicated by a high coefficient of determination ($R^2 = 0.73$) and a  significant F-statistic ($p<.001$).Model assumptions checked using diagnostic plots(Figure \ref{fig:lm_Plots}). These results suggest that elevation explains a substantial proportion of the variability in the VO Index, supporting the adequacy of the linear mean structure. However, given the spatial nature of the data, it is likely that residual spatial dependence remains. Therefore, further investigation of spatial autocorrelation using variogram was performed. \\
+
+
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.75\linewidth]{plots/spatial_correlation_diagnostic.png}
     \caption{Variogram}
     \label{fig:lm_variogram}
 \end{figure}
+\noindent From Figure \ref{fig:lm_variogram}, we get a p-value close to zero, providing strong evidence of residual spatial correlation after accounting for elevation. The empirical variogram lies outside the $95\%$ tolerance envelope at short spatial distances, indicating a clear departure from spatial independence. The semi-variance increases with distance and continues to exhibit variability at larger distances, with no clear sill reached within the observed range. This suggests that spatial dependence persists across the study area and that the effective range of spatial correlation may be larger than the maximum distance considered. The increase and  shape of the empirical variogram are consistent with an exponential correlation structure, supporting its use for modelling the residual spatial dependence.
+
+In addition, we note that after accounting for elevation, the empirical variogram of the residuals exhibits a clear increase at short spatial distances and lies outside the tolerance band under spatial independence. This indicates remaining spatial dependence not explained by elevation. The presence of a non-zero nugget further suggests variability at very small spatial scales, consistent with the influence of unobserved factors affecting the VO index.
+
+
+\begin{table}[htbp]
+\centering
+\caption{Least-squares estimates from the empirical variogram}
+\label{tab:variogram_params}
+\begin{tabular}{lc}
+\hline
+\textbf{Parameter} & \textbf{Estimate} \\
+\hline
+$\sigma^2$ & 0.1175 \\
+$\phi$     & 68.9127 \\
+$\tau^2$   & 0.0639 \\
+\hline
+\end{tabular}
+\end{table}
 
 
 \begin{verbatim}
@@ -249,15 +307,10 @@ phi = 68.91269 (Scale of the spatial correlation)
 tau^2 = 0.06385818 (Variance of the nugget effect) 
 \end{verbatim}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.9\linewidth]{plots/lm_diag_plots.png}
-    \caption{Linear Model Diagnostic Plots}
-    \label{fig:lm_Plots}
-\end{figure}
 
 
-Linear geostatistical Model
+
+\subsection{Linear geostatistical Model}
 \begin{verbatim}
                    Estimate      StdErr z.value   p.value    
 (Intercept)  6.54123347  0.10395944  62.921 < 2.2e-16 ***
@@ -350,7 +403,7 @@ tau^2 = variance of the nugget effect
 
 
 \newpage
-\section{Appendix}
+\section{Appendix 1}
 \begin{lstlisting}[language=R]
 #Homework 1: SPEP
 #########QUESTION 1 ####################
@@ -371,7 +424,14 @@ library(INLA)
 
 \end{lstlisting}
 
-
+\newpage
+\section{Appendix 2}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{plots/lm_diag_plots.png}
+    \caption{Linear Regression Model Diagnostic Plots}
+    \label{fig:lm_Plots}
+\end{figure}
 
 
 
