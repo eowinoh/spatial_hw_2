@@ -1,6 +1,6 @@
 {
     "installOptions": {
-        "installFromRepository": true,
+        "installFromRepository": false,
         "libraryPath": "/Users/edwardowinoh/Library/R/arm64/4.5/library",
         "installDependencies": true
     }

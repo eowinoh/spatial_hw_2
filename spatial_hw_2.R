@@ -224,4 +224,63 @@ columbia_pred_elev %>%
         axis.title = element_blank())
 ggsave("plots/pred_elevation.png", width = 6, height = 4, dpi = 300)
 
+########======adaptive sampling 
+########
+geo_fit_null <- linear.model.MLE(VO ~1,
+                             coords=~utm_x+utm_y, ID.coords=NULL,
+                             start.cov.pars=c(spatial_cor[["lse.variogram"]][["phi"]],
+                                              spatial_cor[["lse.variogram"]][["tau^2"]]/spatial_cor
+                                              [["lse.variogram"]][["sigma^2"]]),
+                             kappa=0.5,data=VO_Cambodia_Updated,
+                             fixed.rel.nugget = NULL,
+                             method="nlminb")
+
+
+
+geo_pred_model_non <- spatial.pred.linear.MLE(geo_fit_null,
+                                              grid.pred = colombia.grid,
+                                          predictors = NULL,
+                                          scale.predictions = "logit",
+                                          standard.errors = TRUE,
+                                          thresholds = 6,
+                                          scale.thresholds = "logit")
+geo_pred_model_non$exceedance.prob <- geo_pred_model_non$exceedance.prob
+
+obj1 <- as.data.frame(cbind(geo_pred_model_non$grid,
+                            c(geo_pred_model_non$logit$standard.errors)^2,
+                            geo_pred_model_non$exceedance.prob))
+colnames(obj1) <- c("x", "y", "pred.var", "exceed.prob")
+
+
+obj1 <- sf::st_as_sf(obj1, coords = c("x", "y")) 
+data_loc <- VO_Cambodia_Updated[c("utm_x","utm_y")]
+data_loc$x <- data_loc$utm_x
+data_loc$y <- data_loc$utm_y
+obj2 <- sf::st_as_sf(data_loc, coords = c("x", "y")) #previously sampled points
+
+library(geosample)
+pdf("adaptive_sampling.pdf", width = 8, height = 8)
+design <- adaptive.sample(obj1 = obj1, obj2 = obj2,
+                          pred.var.col = 1, excd.prob.col = 2,
+                          criterion = "exceedprob", delta = 2,
+                          batch.size = 10, poly = NULL, plotit = T)
+dev.off()
+new_locs <- as.data.frame(design$sample.locs$added.sample)
+#st_write(new_locs, "new_locations_sampled.csv", layer_options = "GEOMETRY=AS_XY")
+sampled_locs <- read.csv("new_locations_sampled.csv")
+
+
+p_sampled <-ggplot(data = VO_Cambodia_Updated )+
+  geom_point(aes(utm_x, utm_y), size = 1) +
+  coord_fixed(ratio = 1) +
+  geom_path(data = data.frame(colomia_boundaries), aes(utm_x,utm_y))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(hjust=0.5),
+        axis.title = element_blank()) +
+  geom_point(data = sampled_locs, aes(X, Y), color = "red", size = 2)
+ggsave("plots/adaptive_sampled_locations.png", plot = p_sampled, width = 6, height = 4, dpi = 300)
+
+
 
