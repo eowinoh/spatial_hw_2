@@ -169,8 +169,9 @@ The objectives of this study were as follows:
 
 \section{Methodology}
 \subsection{Exploratory Analysis}
-All analyses were conducted in R (version 4.5.2), and the code can be found in the Appendix \cite{r_cite}. A map of Cambodia was obtained using the \texttt{world} dataset from the sf package\cite{sf_book}\cite{sf_package}. For both the map and the data, UTM coordinates were first created. For the model predictions, elevation points for all locations in Cambodia were obtained using the \texttt{get\_elev\_point()} function from the \texttt{elevatr} package, using latitude and longitude coordinates \cite{elev}. All other analyses, including the maps of predicted VO Index values, were conducted using UTM coordinates. \\ 
-The data were first explored by computing summary statistics for the VO Index and elevation. A map showing the locations of data collection was produced to assess how the data were distributed across Cambodia. Next, a plot of the VO Index against elevation was created to examine the relationship between the two variables. Maps of the VO Index and elevation at the data collection locations were also produced to further explore their association and to visualize any spatial trends across Cambodia.
+All analyses were conducted in R (version 4.5.2), and the code can be found in the Appendix \cite{r_cite}. A map of Cambodia was obtained using the \texttt{world} dataset from the sf package\cite{sf_book}\cite{sf_package}. For both the map and the data, UTM coordinates were first created. For the model predictions, elevation points for all locations in Cambodia were obtained using the \texttt{get\_elev\_point()} function from the \texttt{elevatr} package, using latitude and longitude coordinates \cite{elev}. All other analyses, including the maps of predicted VO Index values, were conducted using UTM coordinates. \\
+
+\noindent The data were first explored by computing summary statistics for the VO Index and elevation. A map showing the locations of data collection was produced to assess how the data were distributed across Cambodia. Next, a plot of the VO Index against elevation was created to examine the relationship between the two variables. Maps of the VO Index and elevation at the data collection locations were also produced to further explore their association and to visualize any spatial trends across Cambodia.
 
 \subsection{Statistical Analysis}
 \subsection{Linear Regression Model}
@@ -190,25 +191,18 @@ The linear model was subsequently extended to a linear geostatistical framework 
 \[
 Y_i = \beta_0 + \beta_1 \, \text{elevation}(x_i) + S(x_i) + Z_i, \quad i = 1, \ldots, n,
 \]
-where $Y_i$ denotes the VO Index at location $x_i$, and $\text{elevation}(x_i)$ represents the elevation at that location. The term $S(x_i)$ is a spatially correlated Gaussian process that captures the combined influence of unobserved explanatory variables affecting the outcome at location $x_i$. The nugget effect, $Z_i$, represents spatially uncorrelated residual variation and is assumed to follow a normal distribution with mean zero and variance $\tau^2$. $Z_i$ is a measure of measurement errors and the small-scale spatial variations.\\
+where $Y_i$ denotes the VO Index at location $x_i$, and $\text{elevation}(x_i)$ represents the elevation at that location, $x_i$. The term $S(x_i)$ is a spatially correlated Gaussian process that captures the combined influence of unobserved explanatory variables affecting the outcome at location $x_i$. The nugget effect, $Z_i$, represents spatially uncorrelated residual variation and is assumed to follow a normal distribution with mean zero and variance $\tau^2$. $Z_i$ is a measure of measurement errors and the small-scale spatial variations.\\
 
 \noindent An exponential correlation function was adopted for the spatial process, corresponding to a special case of the Matérn correlation function with smoothness parameter $\kappa = 0.5$. Least-squares estimates obtained from fitting the empirical variogram from the linear regression model were used as initial inputs for the linear geostatistical model.\\
 
 \noindent A goodness-of-fit assessment was conducted to evaluate the adequacy of the assumed spatial correlation structure for the VO Index data.
 
 \subsection{Adaptive Sampling Design}
-To improve our understanding of high-risk areas, defined as locations with a VO of 6 or higher,identified in the previous analysis, we selected ten additional sampling locations. We applied an adaptive sampling design, in which data are collected in batches, and the results from each batch inform the design of the next batch. This approach ensures that sampling is concentrated in areas likely to provide the most additional information.
+To improve our understanding of high-risk areas, defined as locations with a VO of 6 or higher,identified in the previous analysis, we selected ten additional sampling locations. We applied an adaptive sampling design, in which data are collected in batches, and the results from each batch inform the design of the next batch. This approach ensures that sampling is concentrated in areas likely to provide the most additional information.\\
 
-In the earlier analysis, we fitted a model to the existing data and generated spatial predictions to estimate the prevalence of high VO across Cambodia. Using this information, we implemented the adaptive design algorithm described by Chipeta et al. (2016a) via the \textit{geosample} package in R to determine the new sampling points.
+\noindent In the earlier analysis, we fitted a model to the existing data and generated spatial predictions to estimate the prevalence of high VO across Cambodia. Using this information, we implemented the adaptive design algorithm described by Chipeta et al. (2016a) via the \textit{geosample} package in R to determine the new sampling points.\\
 
-The selection of the ten additional locations was guided by exceedance probability criteria. This method prioritizes locations with high uncertainty, that is, those with an exceedance probability near 0.5, ensuring that areas with a predicted prevalence of $VO \geq 6$ are targeted. By focusing on these informative locations, the adaptive design maximizes the value of the additional samples and refines estimates of high-risk zones.
-
-
-
-
-
-
-
+\noindent The selection of the ten additional locations was guided by exceedance probability criteria. This method prioritizes locations with high uncertainty, that is, those with an exceedance probability near 0.5, ensuring that areas with a predicted prevalence of $VO \geq 6$ are targeted. By focusing on these informative locations, the adaptive design maximizes the value of the additional samples and refines estimates of high-risk zones.
 
 \section{Results}
 \subsection{Exploratory Analysis}
@@ -279,9 +273,8 @@ The linear model provides a good overall fit to the data, as indicated by a high
     \caption{Variogram}
     \label{fig:lm_variogram}
 \end{figure}
-\noindent From Figure \ref{fig:lm_variogram}, we get a p-value close to zero, providing strong evidence of residual spatial correlation after accounting for elevation. The empirical variogram lies outside the $95\%$ tolerance envelope at short spatial distances, indicating a clear departure from spatial independence. The semi-variance increases with distance and continues to exhibit variability at larger distances, with no clear sill reached within the observed range. This suggests that spatial dependence persists across the study area and that the effective range of spatial correlation may be larger than the maximum distance considered. The increase and  shape of the empirical variogram are consistent with an exponential correlation structure, supporting its use for modelling the residual spatial dependence.
-
-In addition, we note that after accounting for elevation, the empirical variogram of the residuals exhibits a clear increase at short spatial distances and lies outside the tolerance band under spatial independence. This indicates remaining spatial dependence not explained by elevation. The presence of a non-zero nugget further suggests variability at very small spatial scales, consistent with the influence of unobserved factors affecting the VO index.
+\noindent Figure \ref{fig:lm_variogram} shows a p-value close to zero, providing strong evidence of residual spatial correlation after accounting for elevation. The empirical variogram departs from the $95\%$ tolerance envelope at short spatial distances, indicating a clear violation of spatial independence. The semi-variance increases with distance and continues to exhibit variability at larger distances, with no evident sill reached within the observed range. This suggests that spatial dependence persists across the study area and that the effective range of spatial correlation may exceed the maximum distance considered. \\ \\
+\noindent Additionally, the presence of a non-zero nugget indicates substantial variability at very small spatial scales, consistent with the influence of unobserved factors affecting the VO index that are not captured by elevation alone.
 
 
 \begin{table}[htbp]
@@ -300,99 +293,134 @@ $\tau^2$   & 0.0639 \\
 \end{table}
 
 
-\begin{verbatim}
-    Least square fit to the empirical variogram 
-sigma^2 = 0.1175444 (Variance of the Gaussian process) 
-phi = 68.91269 (Scale of the spatial correlation) 
-tau^2 = 0.06385818 (Variance of the nugget effect) 
-\end{verbatim}
+\noindent Based on the least-squares fit to the empirical variogram in Table \ref{tab:variogram_params}, the estimated spatial scale parameter is $\phi = 68.9127$, with a Gaussian process variance of $\sigma^2 = 0.1175$ and a nugget variance of $\tau^2 = 0.0639$. Under the exponential correlation model, the practical range which is defined as the distance at which the correlation $\rho(u)$ decreases to 0.05 is approximately $3\phi$, yielding a value of $3 \times 68.9127 = 206.7381$ km.\\
+
+\noindent This estimate is consistent with the residual variogram shown in Figure \ref{fig:lm_variogram}, where spatial correlation persists over relatively long distances and gradually diminishes beyond approximately 200 km. The absence of a clear sill within shorter distances further supports the presence of long-range spatial dependence across the study area. \\
+
+\noindent The estimated nugget variance indicates substantial variability at very small spatial scales. While this nugget effect may partly reflect measurement error, it may also capture spatially correlated variation occurring at distances smaller than the minimum separation between sampling locations. Consequently, the nugget variance represents a combination of measurement error and unresolved small-scale spatial variability in unknown proportions.
+
+\subsection{Linear Geostatistical Model}
+To address observed spatial correlation, the model was extended to a linear geostatistical framework incorporating a Matérn correlation function to account for spatial dependencies. We focussed specifically on the exponential correlation function, a special case of the Matérn family where $\kappa = 0.5$. To parametrise the linear geostatistical model, we used estimates derived from a least-squares fit to the empirical variogram. The results are as summarise below in table \ref{}
+\begin{table}[htbp]
+\centering
+\caption{Model coefficient estimates}
+\begin{tabular}{lcccc}
+\hline
+Variable & Estimate & Std. Error & p-value \\
+\hline
+Intercept $(\beta_0)$ & 6.54123347  & 0.10395944  & $<.001$ \\
+Elevation $(\beta_1)$ & -0.00468364 & 0.00022119  & $<.001$ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Model coefficient estimates}
+\begin{tabular}{lcccc}
+\hline
+Variable & Estimate & $SE$ & p-value \\
+\hline
+Intercept $(\beta_0)$ & 6.5412  & 0.1040  & $<.001$ \\
+Elevation $(\beta_1)$ & -0.00468 & 0.0002  & $<.001$ \\
+log($\sigma^2$) & -1.6873 & 0.2964 & & \\
+log($\phi$) & 4.5827 &0.4412 & & \\
+log($\tau^2$) & -1.7643 & 0.7568 & & \\
+\hline
+\end{tabular}
+\end{table}
 
 
 
 
-\subsection{Linear geostatistical Model}
-\begin{verbatim}
-                   Estimate      StdErr z.value   p.value    
-(Intercept)  6.54123347  0.10395944  62.921 < 2.2e-16 ***
-elevation   -0.00468364  0.00022119 -21.174 < 2.2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+\begin{table}[h!]
+\centering
+\caption{Transformed parameter estimates from log scale to normal scale}
+\begin{tabular}{lc}
+\hline
+Parameter & Estimate (normal scale) \\
+\hline
+$\sigma^2$ & $e^{-1.6873} = 0.185$ \\
+$\phi$     & $e^{4.5827} = 97.79$ \\
+$\tau^2$   & $e^{-1.7643} = 0.171$ \\
+\hline
+\end{tabular}
+\end{table}
 
-Log-likelihood: 23.61158
- 
-Covariance parameters Matern function (kappa=0.5) 
-             Estimate StdErr
-log(sigma^2)  -1.6873 0.2964
-log(phi)       4.5827 0.4412
-log(tau^2)    -1.7643 0.7568
-\end{verbatim}
-\begin{figure}
+\noindent Although the test for spatial correlation was significant, the estimated regression coefficients from the spatial model were very similar to those obtained from the non-spatial model. This indicates that spatial dependence primarily affects the covariance structure of the residuals rather than the mean structure of the model. The nugget variance in the spatial model ($\tau^2$ = 0.171) in the spatial model is substantial and comparable in magnitude to the spatial variance ($\sigma^2$ = 0.185), which is suggestive of considerable microscale variation/measurement error. Therefore, our analysis indicates strong evidence for unobserved explanatory variables affecting VO beyond elevation. The substantial nugget variance ($\tau^2$ = 0.171), comparable to the spatial variance ($\sigma^2$ = 0.185), suggests that approximately half , \big($\dfrac{\tau^2}{\tau^2 + \sigma^2}=0.48 $\big), of the unexplained variation  occurs at a very small spatial scale, i.e, smaller than the distance between sampling points.
+
+\subsection{Goodness of fit}
+We performed a more formal goodness-of-fit test given by 
+\begin{equation*}
+T = \sum_{k=1}^{K} |N(u_k)| 
+\left( \hat{V}(u_k) - V(u_k; \phi) \right)^2
+\end{equation*}
+\label{eq:GOF}
+where $V(\cdot; \theta)$ is the theoretical variogram, i.e, \[
+V(u; \theta) = \tau^2 + 2 \left\{ 1 - \rho(u) \right\}.
+\]
+
+\noindent We simulated multiple datasets from the fitted linear geostatistical model, computed their empirical variograms, and compared them to the observed empirical variogram using the test statistic T. The observed T fell within the simulated distribution ($p = 0.871$), indicating adequate model fit.
+
+\begin{figure} [htbp]
     \centering
     \includegraphics[width=0.75\linewidth]{plots/geo_spatial_correlation_diagnostic.png}
     \caption{Geostatitical Variogram}
     \label{fig:geo_variogram}
 \end{figure}
 
+Figure \ref{fig:geo_variogram}, shows the empirical variogram (black line) along with the confidence envelope (gray) derived from the fitted theoretical variogram. The empirical variogram lies mostly within the envelope, suggesting consistency with the model. The right panel shows the distribution of the goodness-of-fit test statistic under the null hypothesis. The observed statistic (black dot) falls well within this distribution, with a p-value of 0.871. Therefore, we conclude that the goodness-of-fit test indicates that the linear geostatistical model with exponential spatial correlation adequately captures the spatial dependence structure in our VO data.
 
-
-\begin{verbatim}
-    Geostatistical linear model 
-Call: 
-linear.model.MLE(formula = VO ~ elevation, coords = ~utm_x + 
-    utm_y, data = VO_Cambodia_Updated, ID.coords = NULL, kappa = 0.5, 
-    fixed.rel.nugget = NULL, start.cov.pars = c(spatial_cor[["lse.variogram"]][["phi"]], 
-        spatial_cor[["lse.variogram"]][["tau^2"]]/spatial_cor[["lse.variogram"]][["sigma^2"]]), 
-    method = "nlminb")
-
-               Estimate      StdErr z.value   p.value    
-(Intercept)  6.54123347  0.10395944  62.921 < 2.2e-16 ***
-elevation   -0.00468364  0.00022119 -21.174 < 2.2e-16 ***
----
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-
-Log-likelihood: 23.61158
- 
-Covariance parameters Matern function (kappa=0.5) 
-             Estimate StdErr
-log(sigma^2)  -1.6873 0.2964
-log(phi)       4.5827 0.4412
-log(tau^2)    -1.7643 0.7568
-
-Legend: 
-sigma^2 = variance of the Gaussian process 
-phi = scale of the spatial correlation 
-tau^2 = variance of the nugget effect 
-> 
-\end{verbatim}
-
-
-\begin{figure}
+\subsection{Model predictions and exceedance probabilities}
+The linear geostatistical model incorporating elevation and a nugget effect, was used for the final spatial predictions of the mean VO Index across Cambodia. Figure \ref{fig:pred_poinrs} maps the distribution of these predicted values within the study area. For further context, Figure \ref{fig:pred_elevation} provides a corresponding map of elevation across the study area. \\
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.75\linewidth]{plots/geo_predictive_points.png}
-    \caption{Prediction Data Points}
+    \caption{Distribution of the prediction locations in Cambodia}
     \label{fig:pred_poinrs}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.75\linewidth]{plots/VO_Index_Estimates.png}
-    \caption{VO Index Estimates (Mean)}
-    \label{fig:placeholder}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=0.75\linewidth]{plots/VO_Risk.png}
-    \caption{High and Low Risk based On q1 \& q3}
-    \label{fig:vo_risk}
-\end{figure}
-
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.75\linewidth]{plots/pred_elevation.png}
-    \caption{Predicted Elevation}
-    \label{fig:pred_elevation}
+         \caption{Elevation at prediction locations in Cambodia}
+         \label{fig:pred_elevation}
 \end{figure}
+\clearpage
+\noindent Elevation data for the prediction sites were integrated into linear geostatistical model to estimate the mean VO Index across Cambodia as shown in Figure \ref{fig:pred_VO}.  Additionally, we mapped exceedance probabilities to identify areas where the VO Index likely exceeds the national average, providing a tool to prioritize health interventions(Figure \ref{fig:vo_risk}. We included 25\% and 75\% probability contours to categorize regions where high VO Index values are unlikely, likely, or subject to substantial uncertainty. The established VO Index threshold of 6 was ignored for this question but used for the adaptive sampling question.
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[t]{0.49\linewidth}
+        \centering
+         \includegraphics[width=\linewidth]{plots/VO_Index_Estimates.png}
+         \caption{VO Index Estimates (Mean)}
+         \label{fig:pred_VO}
+    \end{subfigure}\hfill
+    \begin{subfigure}[t]{0.49\linewidth}
+        \centering
+         \includegraphics[width=\linewidth]{plots/VO_Risk.png}
+        \caption{VO index risk (exceedance probabilities}
+        \label{fig:vo_risk}
+    \end{subfigure}\hfill
+    \caption{Model-based prediction Maps}
+    \label{fig:eda_combined}
+\end{figure}
+ 
+\subsection{Adaptive Sampling}
+Adaptive design was employed to sample the ten additional locations using the exceedance probability selection criterion. High risk areas for this question were defined as locations with a VO index of 6 or greater. As shown in figure \ref{fig:adaptive_sampling}, the new sampling locations in red are concentrated in regions with high predicted VO exceedance as shown in Figure \ref{fig:pred_VO}. 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.75\linewidth]{plots/adaptive_sampled_locations.png}
+    \caption{Adaptive Sampling Locations}
+    \label{fig:adaptive_sampling}
+\end{figure}
+
+\section{Discussion}
+In this report, we have established that elevation serves as a significant proxy for environmental factors influencing the VO Index, with lower altitudes consistently exhibiting higher index values. To enhance public health utility, we employed an adaptive sampling design to facilitate targeted intervention. Our findings further indicate that, beyond elevation, vector abundance in Cambodia displays significant spatial correlation; consequently, geostatistical models that incorporate spatial effects were found to provide the most robust fit for the data. \\
+
+\noindent Because data on the VO index are not available for every location, a linear geostatistical model was used to generate predictive maps of the VO Index across Cambodia. These maps also illustrate the probability of exceeding a specific threshold to identify areas of concern, which was the dataset mean of 5.9. These visual tools are intended to guide dengue control and prevention efforts by pinpointing regions where mosquito abundance is likely to be high. The maps clearly demonstrate that high-elevation areas carry a lower vector risk than low-lying regions, a finding consistent with our adaptive sampling results when using a threshold of 6 to select 10 additional sampling locations. \\
+
+\noindent The primary limitation of this study is the reliance on a single explanatory variable. While elevation proved to be a strong predictor, the model’s predictive power could be further enhanced by incorporating additional environmental or socio-demographic variables. Future research should integrate high-resolution climate data, such as rainfall and temperature patterns , or land-use data to provide a more comprehensive understanding of vector distribution and further refine targeted control strategies\cite{hii2012forecast} \cite{pinontoan2022variability} \cite{sarfraz2012analyzing}.
 
 \clearpage
 
