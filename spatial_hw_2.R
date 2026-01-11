@@ -1,6 +1,6 @@
 
 ############################################################
-# Assignment Title: Spatial Epidemiology Homework 1
+# Assignment Title: Spatial Epidemiology Homework 2
 # Author: Group 4
 # Question: 1
 ############################################################
@@ -154,11 +154,6 @@ variog.diagnostic.lm(geo_fit1)
 dev.off()
 
 #######========Prediction on a grid
-library(geosphere)
-x=distm(d@coords[11,],d@coords[32,],fun=distGeo)/1000
-x
-y=distm(d@coords[1,],d@coords[24,],fun=distGeo)/1000
-y
 library(splancs)
 colombia.grid <- gridpts(as.matrix(coord_p_new@coords),npts=1000)
 col.grid=as.data.frame(colombia.grid)
@@ -266,7 +261,7 @@ design <- adaptive.sample(obj1 = obj1, obj2 = obj2,
                           batch.size = 10, poly = NULL, plotit = T)
 dev.off()
 new_locs <- as.data.frame(design$sample.locs$added.sample)
-#st_write(new_locs, "new_locations_sampled.csv", layer_options = "GEOMETRY=AS_XY")
+
 sampled_locs <- read.csv("new_locations_sampled.csv")
 
 
@@ -280,7 +275,8 @@ p_sampled <-ggplot(data = VO_Cambodia_Updated )+
         plot.title = element_text(hjust=0.5),
         axis.title = element_blank()) +
   geom_point(data = sampled_locs, aes(X, Y), color = "red", size = 2)
-ggsave("plots/adaptive_sampled_locations.png", plot = p_sampled, width = 6, height = 4, dpi = 300)
+ggsave("plots/adaptive_sampled_locations.png", plot = p_sampled,
+       width = 6, height = 4, dpi = 300)
 
 
 
