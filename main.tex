@@ -134,7 +134,7 @@ Prof. Dr. Thomas Neyens \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Background}
-Dengue is a mosquito-transmitted viral infection endemic to tropical and subtropical regions where climate conditions support large vector populations. The disease often presents asymptomatically, yet when symptoms occur, they typically include high fever, headache, and intense bodily pain\cite{who_dengue_severe_2025}. Although recovery usually occurs within a couple of weeks, the risk of developing a severe, life-threatening form of the disease underscores its gravity. Since no specific treatment exists, prevention, primarily through avoiding daytime mosquito bites, is the single most vital strategy for reducing the burden of infection \cite{who_dengue_severe_2025}. \\\\
+Dengue is a mosquito-transmitted viral infection endemic to tropical and subtropical regions where climate conditions support large vector populations. The disease often presents asymptomatically, yet when symptoms occur, they typically include high fever, headache, and intense body pains\cite{who_dengue_severe_2025}. Although recovery usually occurs within a couple of weeks, the risk of developing a severe, life-threatening form of the disease underscores its gravity. Since no specific treatment exists, prevention, primarily through avoiding daytime mosquito bites, is the single most vital strategy for reducing the burden of infection \cite{who_dengue_severe_2025}. \\\\
 \noindent One way to quantify the local risk of dengue transmission is through the Vector Occurrence (VO) index, a continuous measure that reflects the combined abundance of mosquito vector species at a given location. In entomology, vector occurrence refers to the presence, distribution, and population level of arthropods capable of transmitting pathogens to humans, animals, or plants. The VO index is derived from data collected using both light traps and sentinel traps, providing a mixed and comprehensive estimate of mosquito activity. Higher VO values indicate greater overall mosquito abundance and therefore a higher potential risk of dengue transmission. \\\\
 \noindent  The majority of the at-risk population currently live in the Asia-Pacific Region \cite{who_dengue_severe_2025}. Cambodia has endured a long-term public health challenge from dengue fever, traceable to a massive epidemic in 1995 that resulted in more than 400 recorded deaths. Since this benchmark event, the annual monitoring of dengue incidence reveals a sustained upward trend in case numbers \cite{huy2010national} \cite{vong2010dengue} \cite{herbreteau2025spatio}. This escalating threat has been marked by several significant outbreaks characterized by high morbidity, including major epidemics in 2007 (39,618 cases and 396 deaths), 2012 (42,362 cases and 189 deaths), and most recently in 2019, which registered the highest case count yet at 68,597, alongside 48 fatalities\cite{maquart2021recent}. \\ \\
 \noindent This project investigates the spatial variation of the VO index across Cambodia. Because mosquito distribution and abundance are affected by biophysical conditions, the VO index is expected to vary
@@ -159,11 +159,11 @@ $Y_i$         & Latitude of location $i$ \\
 
 
 \section{Study Objectives}
-The objectives of this study were as follows:
+The following were the objectives of our study:
 \begin{enumerate}
     \item To  determine whether VO exhibits spatial correlation across Cambodia. %indicating that neighboring areas may share similar underlying patterns.
     \item To assess whether the observed variation in VO can be explained solely by elevation or whether additional, unobserved spatially structured factors are influencing VO at finer spatial scales.
-    \item To develop a model-based map of predicted mean VO across the country, incorporating elevation and any relevant latent spatial components identified in the analysis
+    \item To develop a model-based map of predicted mean VO across the country, incorporating elevation and any relevant latent spatial components identified in the analysis.
     \item  To identify high-risk areas and new locations where additional data collection would most effectively improve understanding of VO risk.
 \end{enumerate}
 
@@ -300,19 +300,7 @@ $\tau^2$   & 0.0639 \\
 \noindent The estimated nugget variance indicates substantial variability at very small spatial scales. While this nugget effect may partly reflect measurement error, it may also capture spatially correlated variation occurring at distances smaller than the minimum separation between sampling locations. Consequently, the nugget variance represents a combination of measurement error and unresolved small-scale spatial variability in unknown proportions.
 
 \subsection{Linear Geostatistical Model}
-To address observed spatial correlation, the model was extended to a linear geostatistical framework incorporating a Matérn correlation function to account for spatial dependencies. We focussed specifically on the exponential correlation function, a special case of the Matérn family where $\kappa = 0.5$. To parametrise the linear geostatistical model, we used estimates derived from a least-squares fit to the empirical variogram. The results are as summarise below in table \ref{}
-\begin{table}[htbp]
-\centering
-\caption{Model coefficient estimates}
-\begin{tabular}{lcccc}
-\hline
-Variable & Estimate & Std. Error & p-value \\
-\hline
-Intercept $(\beta_0)$ & 6.54123347  & 0.10395944  & $<.001$ \\
-Elevation $(\beta_1)$ & -0.00468364 & 0.00022119  & $<.001$ \\
-\hline
-\end{tabular}
-\end{table}
+To address observed spatial correlation, the model was extended to a linear geostatistical framework incorporating a Matérn correlation function to account for spatial dependencies. We focussed specifically on the exponential correlation function, a special case of the Matérn family where $\kappa = 0.5$. To parametrise the linear geostatistical model, we used estimates derived from a least-squares fit to the empirical variogram. The results are summarised in the table below.
 
 \begin{table}[htbp]
 \centering
@@ -347,7 +335,7 @@ $\tau^2$   & $e^{-1.7643} = 0.171$ \\
 \end{tabular}
 \end{table}
 
-\noindent Although the test for spatial correlation was significant, the estimated regression coefficients from the spatial model were very similar to those obtained from the non-spatial model. This indicates that spatial dependence primarily affects the covariance structure of the residuals rather than the mean structure of the model. The nugget variance in the spatial model ($\tau^2$ = 0.171) in the spatial model is substantial and comparable in magnitude to the spatial variance ($\sigma^2$ = 0.185), which is suggestive of considerable microscale variation/measurement error. Therefore, our analysis indicates strong evidence for unobserved explanatory variables affecting VO beyond elevation. The substantial nugget variance ($\tau^2$ = 0.171), comparable to the spatial variance ($\sigma^2$ = 0.185), suggests that approximately half , \big($\dfrac{\tau^2}{\tau^2 + \sigma^2}=0.48 $\big), of the unexplained variation  occurs at a very small spatial scale, i.e, smaller than the distance between sampling points.
+\noindent Although the test for spatial correlation was significant, the estimated regression coefficients from the spatial model were very similar to those obtained from the non-spatial model. This indicates that spatial dependence primarily affects the covariance structure of the residuals rather than the mean structure of the model. The nugget variance in the spatial model ($\tau^2$ = 0.171) in the spatial model is substantial and comparable in magnitude to the spatial variance ($\sigma^2$ = 0.185), which is suggestive of considerable small scale variation or measurement error. Therefore, our analysis indicates strong evidence for unobserved explanatory variables affecting VO beyond elevation. The substantial nugget variance ($\tau^2$ = 0.171), comparable to the spatial variance ($\sigma^2$ = 0.185), suggests that approximately half , \big($\dfrac{\tau^2}{\tau^2 + \sigma^2}=0.48 $\big), of the unexplained variation  occurs at a very small spatial scale, i.e, smaller than the distance between sampling points.
 
 \subsection{Goodness of fit}
 We performed a more formal goodness-of-fit test given by 
@@ -387,7 +375,7 @@ The linear geostatistical model incorporating elevation and a nugget effect, was
          \label{fig:pred_elevation}
 \end{figure}
 \clearpage
-\noindent Elevation data for the prediction sites were integrated into linear geostatistical model to estimate the mean VO Index across Cambodia as shown in Figure \ref{fig:pred_VO}.  Additionally, we mapped exceedance probabilities to identify areas where the VO Index likely exceeds the national average, providing a tool to prioritize health interventions(Figure \ref{fig:vo_risk}. We included 25\% and 75\% probability contours to categorize regions where high VO Index values are unlikely, likely, or subject to substantial uncertainty. The established VO Index threshold of 6 was ignored for this question but used for the adaptive sampling question.
+\noindent Elevation data for the prediction sites were integrated into linear geostatistical model to estimate the mean VO Index across Cambodia as shown in Figure \ref{fig:pred_VO}.  Additionally, we mapped exceedance probabilities to identify areas where the VO Index likely exceeds the sample average, providing a tool to prioritize health interventions(Figure \ref{fig:vo_risk}). We included 25\% and 75\% probability contours to categorize regions where high VO Index values are unlikely, likely, or subject to substantial uncertainty. The established VO Index threshold of 6 was ignored for this question but used for the adaptive sampling question.
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[t]{0.49\linewidth}
@@ -399,7 +387,7 @@ The linear geostatistical model incorporating elevation and a nugget effect, was
     \begin{subfigure}[t]{0.49\linewidth}
         \centering
          \includegraphics[width=\linewidth]{plots/VO_Risk.png}
-        \caption{VO index risk (exceedance probabilities}
+        \caption{VO index risk (exceedance probabilities)}
         \label{fig:vo_risk}
     \end{subfigure}\hfill
     \caption{Model-based prediction Maps}
@@ -415,7 +403,7 @@ Adaptive design was employed to sample the ten additional locations using the ex
     \label{fig:adaptive_sampling}
 \end{figure}
 
-\section{Discussion}
+\section{Discussion and Conclusion}
 In this report, we have established that elevation serves as a significant proxy for environmental factors influencing the VO Index, with lower altitudes consistently exhibiting higher index values. To enhance public health utility, we employed an adaptive sampling design to facilitate targeted intervention. Our findings further indicate that, beyond elevation, vector abundance in Cambodia displays significant spatial correlation; consequently, geostatistical models that incorporate spatial effects were found to provide the most robust fit for the data. \\
 
 \noindent Because data on the VO index are not available for every location, a linear geostatistical model was used to generate predictive maps of the VO Index across Cambodia. These maps also illustrate the probability of exceeding a specific threshold to identify areas of concern, which was the dataset mean of 5.9. These visual tools are intended to guide dengue control and prevention efforts by pinpointing regions where mosquito abundance is likely to be high. The maps clearly demonstrate that high-elevation areas carry a lower vector risk than low-lying regions, a finding consistent with our adaptive sampling results when using a threshold of 6 to select 10 additional sampling locations. \\
@@ -433,20 +421,280 @@ In this report, we have established that elevation serves as a significant proxy
 \newpage
 \section{Appendix 1}
 \begin{lstlisting}[language=R]
-#Homework 1: SPEP
-#########QUESTION 1 ####################
-# load libraries
-library(dplyr)
-library(readxl)
-library(tidyr) 
-library(sf)
-library(spdep)
-library(tmap)
-library(readr) 
-library(stringr)
-library(purrr)
-library(broom)
-library(INLA)
+
+############################################################
+# Assignment Title: Spatial Epidemiology Homework 2
+# Author: Group 4
+############################################################
+
+rm(list = ls()) 
+
+
+# packages ----------------------------------------------------------------
+require(pacman)
+pacman::p_load(tidyverse, here, sf,sp,xtable,
+               tmap, spdep, nimble, coda, INLA,
+               cowplot, stats4, formatR, readxl, rootSolve,sf,elevatr)
+#install.packages("https://cran.r-project.org/src/contrib/Archive/PrevMap/PrevMap_1.5.tar.gz",repos = NULL, type = "source")
+#load data
+VO_data_Combodia <- read.table("VO_data_Combodia.txt", header = TRUE)
+
+#shapefile and extract coordinates
+data("world")
+cambodia <- world %>% filter(name_long == "Cambodia")
+coord_p <-st_coordinates(cambodia$geom) %>% 
+  as.data.frame() %>% 
+  dplyr::select(-c(3:5))
+
+coordinates(coord_p) <- c("X", "Y")
+
+coord_d <- VO_data_Combodia[c(1:2)]
+coordinates(coord_d) <- c("X", "Y")
+
+######=== Assign CRS WGS84 ===######
+###### package data points
+proj4string(coord_p) <- CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+coord_p_new=spTransform(coord_p,CRS("+proj=utm +zone=37 +ellps=WGS84 +datum=WGS84 +units=
+km +no_defs +south"))
+
+#####=== from given VO data
+proj4string(coord_d) <- CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
+coord_d_new=spTransform(coord_d,CRS("+proj=utm +zone=37 +ellps=WGS84 +datum=WGS84 +units=
+km +no_defs +south"))
+
+####UTM coordinates
+coord_p_new$utm_x <- coordinates(coord_p_new)[, 1]
+coord_p_new$utm_y <- coordinates(coord_p_new)[, 2]
+coord_d_new$utm_x <- coordinates(coord_d_new)[, 1]
+coord_d_new$utm_y <- coordinates(coord_d_new)[, 2]
+
+#######====append the data to package and given data====########
+colomia_boundaries<-coord_p_new@data
+VO_Cambodia_Updated=cbind(VO_data_Combodia,coord_d_new@data)
+
+
+
+#################=== Exploraotory Analysis
+summary_stats<- as.data.frame(sapply(VO_Cambodia_Updated, summary)) %>%
+  dplyr::select(VO, elevation) %>% mutate(across(where(is.numeric), ~ round(
+    ., 2)))
+
+summary_clean <- as.data.frame(t(summary_stats)) %>% 
+  xtable() %>% print(.,include.rownames = TRUE)
+
+
+pv0 <- VO_Cambodia_Updated %>%
+  ggplot()+
+  geom_point(aes(utm_x, utm_y, color = VO), size = 1) +
+  coord_fixed(ratio = 1) +
+  labs(title="") +
+  scale_color_viridis_c(option = "plasma") +
+  #scale_color_gradient(low = "blue", high = "red") +
+  geom_path(data = data.frame(colomia_boundaries), aes(utm_x,utm_y))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(hjust=0.5),
+        axis.title = element_blank())
+ggsave("plots/eda_VO.png", plot = pv0, width = 6, height = 4, dpi = 300)
+
+
+p_elev <-  VO_Cambodia_Updated %>%
+  ggplot()+
+  geom_point(aes(utm_x, utm_y, color = elevation), size = 1) +
+  coord_fixed(ratio = 1) +
+  labs(color="Elevation (m)") +
+  scale_color_viridis_c(option = "plasma") +
+  #scale_color_gradient(low = "blue", high = "red") +
+  geom_path(data = data.frame(colomia_boundaries), aes(utm_x,utm_y))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(hjust=0.5),
+        axis.title = element_blank())
+ggsave("plots/eda_elevation.png", plot = p_elev, width = 6, height = 4, dpi = 300)
+
+#######==== VO vs elevation
+png("plots/eda_VO_vs_elevation.png", width = 1200, height = 900, res = 150)
+
+plot(VO ~ elevation,
+     data = VO_Cambodia_Updated,
+     main = "",
+     xlab = "Elevation (m)",
+     pch = 20,
+     cex = 0.5)
+
+dev.off()
+
+
+##############======Modelling ======####################
+##############Linear regression model
+
+lm1 <- lm(VO ~ elevation, data = VO_Cambodia_Updated)
+summary(lm1)
+
+
+####check model assumption
+png("plots/lm_diag_plots.png", width = 1200, height = 1200, res = 150)
+par(mfrow = c(2, 2))
+plot(lm1)
+dev.off()
+
+######===check for spatial correlatio
+set.seed(122025)
+library(PrevMap)
+theta.start <- NULL
+#####check distance distriution for uvec selection
+coords <- cbind(VO_Cambodia_Updated$utm_x, VO_Cambodia_Updated$utm_y)
+d <- dist(coords)
+summary(d)
+
+
+######plot variograms
+png("plots/spatial_correlation_diagnostic.png", width = 1200, height = 900, res = 150)
+spatial_cor <- spat.corr.diagnostic(formula=VO ~ elevation,
+                                   coords=~utm_x+utm_y,ID.coords = NULL,
+                                   data=VO_Cambodia_Updated,likelihood="Gaussian",
+                                   uvec=seq(10,750,length=20),n.sim = 1000,
+                                   lse.variogram = TRUE)
+dev.off()
+
+#########======Linear geostatistical model
+geo_fit1 <- linear.model.MLE(VO ~elevation,
+                             coords=~utm_x+utm_y, ID.coords=NULL,
+                             start.cov.pars=c(spatial_cor[["lse.variogram"]][["phi"]],
+                                              spatial_cor[["lse.variogram"]][["tau^2"]]/spatial_cor
+                                              [["lse.variogram"]][["sigma^2"]]),
+                             kappa=0.5,data=VO_Cambodia_Updated,
+                             fixed.rel.nugget = NULL,
+                             method="nlminb")
+summary(geo_fit1)
+
+#######===#########======Goodness of fit
+png("plots/geo_spatial_correlation_diagnostic.png", width = 1200, height = 900, res = 150)
+variog.diagnostic.lm(geo_fit1)
+dev.off()
+
+#######========Prediction on a grid
+library(splancs)
+colombia.grid <- gridpts(as.matrix(coord_p_new@coords),npts=1000)
+col.grid=as.data.frame(colombia.grid)
+coordinates(col.grid) <- c("V1", "V2")
+proj4string(col.grid) <- CRS("+proj=utm +zone=37 +ellps=WGS84 +datum=WGS84
++units=km +no_defs +south")
+col.grid=spTransform(col.grid,CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+col.grid=as.data.frame(col.grid@coords)
+
+elev<-col.grid %>% as_tibble() %>% setNames(c("x","y")) %>% as.data.frame()
+
+colombia_predictors <- get_elev_point(elev, src="aws", prj=4326)
+colombia_predictors<-as.data.frame(colombia_predictors) %>% dplyr::select(-c(1,3))
+
+png("plots/geo_predictive_points.png", width = 900, height = 900, res = 150)
+plot(colombia.grid,xlab = "", ylab = "")
+lines(colomia_boundaries)
+dev.off()
+
+#########====predictive plots
+summary(VO_Cambodia_Updated$VO)
+mean_vo <- mean(VO_Cambodia_Updated$VO)
+geo_pred_model <- spatial.pred.linear.MLE(geo_fit1,grid.pred = colombia.grid,
+                                    predictors = colombia_predictors,
+                                    scale.predictions = "logit",
+                                    standard.errors = TRUE,
+                                    thresholds = mean_vo,
+                                    scale.thresholds = "logit")
+geo_pred_model$exceedance.prob <- geo_pred_model$exceedance.prob
+
+png("plots/VO_Index_Estimates.png", width = 900, height = 900, res = 150)
+plot(geo_pred_model,type="logit",summary="predictions",main="",xlab="",ylab="")
+contour(geo_pred_model,type="logit",add=TRUE,levels=mean_vo)
+lines(colomia_boundaries)
+dev.off()
+
+png("plots/VO_Risk.png", width = 900, height = 900, res = 150)
+plot(geo_pred_model,summary="exceedance.prob",zlim=c(0,1),main="", xlab="",ylab="")
+contour(geo_pred_model,summary="exceedance.prob",add=TRUE,levels=c(0.25,0.75))
+lines(colomia_boundaries)
+dev.off()
+
+columbia_pred_elev <- cbind(colombia_predictors,colombia.grid)
+colnames(columbia_pred_elev)=c("elevation","utm_x","utm_y")
+
+columbia_pred_elev %>%
+  ggplot()+
+  geom_point(aes(utm_x, utm_y, color = elevation), size = 1) +
+  coord_fixed(ratio = 1) +
+  labs(title=""
+       , color="Metres") +
+  scale_color_gradientn(colours = rev(terrain.colors(10))) +
+  geom_path(data = data.frame(colomia_boundaries), aes(utm_x,utm_y)) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(hjust=0.5, face="bold"),
+        axis.title = element_blank())
+ggsave("plots/pred_elevation.png", width = 6, height = 4, dpi = 300)
+
+########======adaptive sampling 
+########
+geo_fit_null <- linear.model.MLE(VO ~1,
+                             coords=~utm_x+utm_y, ID.coords=NULL,
+                             start.cov.pars=c(spatial_cor[["lse.variogram"]][["phi"]],
+                                              spatial_cor[["lse.variogram"]][["tau^2"]]/spatial_cor
+                                              [["lse.variogram"]][["sigma^2"]]),
+                             kappa=0.5,data=VO_Cambodia_Updated,
+                             fixed.rel.nugget = NULL,
+                             method="nlminb")
+
+
+
+geo_pred_model_non <- spatial.pred.linear.MLE(geo_fit_null,
+                                              grid.pred = colombia.grid,
+                                          predictors = NULL,
+                                          scale.predictions = "logit",
+                                          standard.errors = TRUE,
+                                          thresholds = 6,
+                                          scale.thresholds = "logit")
+geo_pred_model_non$exceedance.prob <- geo_pred_model_non$exceedance.prob
+
+obj1 <- as.data.frame(cbind(geo_pred_model_non$grid,
+                            c(geo_pred_model_non$logit$standard.errors)^2,
+                            geo_pred_model_non$exceedance.prob))
+colnames(obj1) <- c("x", "y", "pred.var", "exceed.prob")
+
+
+obj1 <- sf::st_as_sf(obj1, coords = c("x", "y")) 
+data_loc <- VO_Cambodia_Updated[c("utm_x","utm_y")]
+data_loc$x <- data_loc$utm_x
+data_loc$y <- data_loc$utm_y
+obj2 <- sf::st_as_sf(data_loc, coords = c("x", "y")) #previously sampled points
+
+library(geosample)
+pdf("adaptive_sampling.pdf", width = 8, height = 8)
+design <- adaptive.sample(obj1 = obj1, obj2 = obj2,
+                          pred.var.col = 1, excd.prob.col = 2,
+                          criterion = "exceedprob", delta = 2,
+                          batch.size = 10, poly = NULL, plotit = T)
+dev.off()
+new_locs <- as.data.frame(design$sample.locs$added.sample)
+
+sampled_locs <- read.csv("new_locations_sampled.csv")
+
+
+p_sampled <-ggplot(data = VO_Cambodia_Updated )+
+  geom_point(aes(utm_x, utm_y), size = 1) +
+  coord_fixed(ratio = 1) +
+  geom_path(data = data.frame(colomia_boundaries), aes(utm_x,utm_y))+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_rect(colour = "black", fill=NA),
+        plot.title = element_text(hjust=0.5),
+        axis.title = element_blank()) +
+  geom_point(data = sampled_locs, aes(X, Y), color = "red", size = 2)
+ggsave("plots/adaptive_sampled_locations.png", plot = p_sampled,
+       width = 6, height = 4, dpi = 300)
+
 
 
 
